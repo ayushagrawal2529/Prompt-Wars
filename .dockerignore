@@ -1,0 +1,22 @@
+# ─────────────────────────────────────────────
+# Dockerignore — Keep the build image lean
+# ─────────────────────────────────────────────
+
+node_modules/
+dist/
+build/
+.git/
+.gitignore
+.env
+.env.*
+*.md
+implementation_plan.md
+task.md
+.vscode/
+.idea/
+.npmrc
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/tmp/
+/temp/
