@@ -11,7 +11,7 @@ import { processRequest } from "./orchestrator/pipeline.service";
 import { RawInput, InputType } from "./shared/types";
 
 const app = express();
-const PORT = 3000;
+const PORT = parseInt(process.env.PORT || "3000", 10);
 
 // Middleware
 app.use(cors());
@@ -91,7 +91,7 @@ app.get("/{*path}", (_req: Request, res: Response) => {
   res.sendFile(path.join(publicDir, "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`\n🚀 PromptWars UI Server running at: http://localhost:${PORT}`);
-  console.log(`   API endpoint: http://localhost:${PORT}/api/process\n`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`\n🚀 PromptWars UI Server running at: http://0.0.0.0:${PORT}`);
+  console.log(`   API endpoint: http://0.0.0.0:${PORT}/api/process\n`);
 });
