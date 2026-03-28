@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PromptWars — Modular AI Pipeline</title>
+  <meta name="description" content="Production-grade modular AI pipeline that converts unstructured inputs (text, audio, image) into structured, verified, actionable outputs." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Background particles -->
+  <div class="bg-particles" id="bgParticles"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="14" stroke="url(#logoGrad)" stroke-width="2"/>
+            <path d="M10 16h12M16 10l6 6-6 6" stroke="url(#logoGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="2" y1="2" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#6366f1"/>
+                <stop offset="1" stop-color="#a855f7"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">PromptWars</span>
+        <span class="logo-badge">AI Pipeline</span>
+      </div>
+      <div class="header-status" id="healthStatus">
+        <span class="status-dot"></span>
+        <span class="status-text">Connecting…</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- Hero -->
+    <section class="hero">
+      <h1 class="hero-title">
+        Unstructured Input.<br/>
+        <span class="gradient-text">Structured Intelligence.</span>
+      </h1>
+      <p class="hero-subtitle">
+        Upload text, audio or image data and watch the 5-stage AI pipeline transform it into verified, actionable outputs in real-time.
+      </p>
+    </section>
+
+    <!-- Pipeline stages visual -->
+    <section class="pipeline-visual" id="pipelineVisual">
+      <div class="stage-node" id="stage-1" data-label="Normalization">
+        <div class="stage-icon">🔄</div>
+        <div class="stage-name">Normalization</div>
+        <div class="stage-num">1</div>
+      </div>
+      <div class="stage-arrow">→</div>
+      <div class="stage-node" id="stage-2" data-label="Intent">
+        <div class="stage-icon">🎯</div>
+        <div class="stage-name">Intent</div>
+        <div class="stage-num">2</div>
+      </div>
+      <div class="stage-arrow">→</div>
+      <div class="stage-node" id="stage-3" data-label="Context">
+        <div class="stage-icon">🌐</div>
+        <div class="stage-name">Context</div>
+        <div class="stage-num">3</div>
+      </div>
+      <div class="stage-arrow">→</div>
+      <div class="stage-node" id="stage-4" data-label="Decision">
+        <div class="stage-icon">⚡</div>
+        <div class="stage-name">Decision</div>
+        <div class="stage-num">4</div>
+      </div>
+      <div class="stage-arrow">→</div>
+      <div class="stage-node" id="stage-5" data-label="Verification">
+        <div class="stage-icon">✅</div>
+        <div class="stage-name">Verification</div>
+        <div class="stage-num">5</div>
+      </div>
+    </section>
+
+    <!-- Input Panel -->
+    <section class="input-panel">
+      <div class="panel-card">
+        <div class="panel-header">
+          <h2 class="panel-title">Submit Input</h2>
+          <p class="panel-subtitle">Choose your input type and provide data to process</p>
+        </div>
+
+        <!-- Input Type Tabs -->
+        <div class="type-tabs" role="tablist" aria-label="Input type">
+          <button class="type-tab active" id="tab-text" data-type="text" role="tab" aria-selected="true">
+            <span class="tab-icon">💬</span> Text
+          </button>
+          <button class="type-tab" id="tab-audio" data-type="audio" role="tab" aria-selected="false">
+            <span class="tab-icon">🎵</span> Audio
+          </button>
+          <button class="type-tab" id="tab-image" data-type="image" role="tab" aria-selected="false">
+            <span class="tab-icon">🖼️</span> Image
+          </button>
+        </div>
+
+        <!-- Text Input -->
+        <div class="input-section" id="section-text">
+          <label class="input-label" for="textInput">Enter your text prompt</label>
+          <textarea
+            id="textInput"
+            class="text-input"
+            placeholder="e.g. There is a fire emergency in the building! Help needed urgently."
+            rows="5"
+          ></textarea>
+          <div class="quick-prompts">
+            <span class="quick-label">Quick samples:</span>
+            <button class="quick-btn" id="qb-emergency" data-prompt="There is a fire emergency in the building! Help needed urgently.">🚨 Emergency</button>
+            <button class="quick-btn" id="qb-booking" data-prompt="I want to book an appointment in New York for next Monday.">📅 Booking</button>
+            <button class="quick-btn" id="qb-weather" data-prompt="What is the weather forecast in London today?">🌤 Weather</button>
+          </div>
+        </div>
+
+        <!-- Audio Input -->
+        <div class="input-section hidden" id="section-audio">
+          <div class="drop-zone" id="dropZoneAudio">
+            <div class="drop-icon">🎵</div>
+            <div class="drop-title">Drop audio file here</div>
+            <div class="drop-sub">or <span class="browse-link" id="browseAudio">browse files</span></div>
+            <div class="drop-formats">Supports: MP3, WAV, OGG, M4A</div>
+            <input type="file" id="fileAudio" accept="audio/*" class="file-hidden" />
+          </div>
+          <div class="file-preview hidden" id="previewAudio"></div>
+        </div>
+
+        <!-- Image Input -->
+        <div class="input-section hidden" id="section-image">
+          <div class="drop-zone" id="dropZoneImage">
+            <div class="drop-icon">🖼️</div>
+            <div class="drop-title">Drop image file here</div>
+            <div class="drop-sub">or <span class="browse-link" id="browseImage">browse files</span></div>
+            <div class="drop-formats">Supports: JPG, PNG, GIF, WEBP, BMP</div>
+            <input type="file" id="fileImage" accept="image/*" class="file-hidden" />
+          </div>
+          <div class="file-preview hidden" id="previewImage"></div>
+        </div>
+
+        <!-- Submit -->
+        <button class="submit-btn" id="submitBtn" disabled>
+          <span class="btn-icon">⚡</span>
+          <span class="btn-text">Run Pipeline</span>
+          <span class="btn-loader hidden" id="btnLoader"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Results Panel -->
+    <section class="results-panel hidden" id="resultsPanel">
+      <div class="panel-card results-card">
+        <div class="results-header">
+          <h2 class="panel-title">Pipeline Results</h2>
+          <div class="result-meta" id="resultMeta"></div>
+        </div>
+
+        <!-- Stage Result Cards -->
+        <div class="result-stages" id="resultStages">
+
+          <!-- Stage 1: Normalization -->
+          <div class="result-stage" id="res-stage-1">
+            <div class="rs-header">
+              <div class="rs-badge">Stage 1</div>
+              <div class="rs-title">🔄 Normalization</div>
+              <div class="rs-toggle" data-target="rs-body-1">▼</div>
+            </div>
+            <div class="rs-body" id="rs-body-1">
+              <div class="rs-field"><span class="rs-key">Input Type</span><span class="rs-val" id="rs-norm-type">—</span></div>
+              <div class="rs-field rs-full"><span class="rs-key">Normalized Text</span><pre class="rs-pre" id="rs-norm-text">—</pre></div>
+            </div>
+          </div>
+
+          <!-- Stage 2: Intent -->
+          <div class="result-stage" id="res-stage-2">
+            <div class="rs-header">
+              <div class="rs-badge">Stage 2</div>
+              <div class="rs-title">🎯 Intent Extraction</div>
+              <div class="rs-toggle" data-target="rs-body-2">▼</div>
+            </div>
+            <div class="rs-body" id="rs-body-2">
+              <div class="rs-field"><span class="rs-key">Intent</span><span class="rs-val intent-chip" id="rs-intent">—</span></div>
+              <div class="rs-field"><span class="rs-key">Urgency</span><span class="rs-val urgency-chip" id="rs-urgency">—</span></div>
+              <div class="rs-field rs-full"><span class="rs-key">Entities</span><pre class="rs-pre" id="rs-entities">—</pre></div>
+            </div>
+          </div>
+
+          <!-- Stage 3: Context -->
+          <div class="result-stage" id="res-stage-3">
+            <div class="rs-header">
+              <div class="rs-badge">Stage 3</div>
+              <div class="rs-title">🌐 Context Enrichment</div>
+              <div class="rs-toggle" data-target="rs-body-3">▼</div>
+            </div>
+            <div class="rs-body" id="rs-body-3">
+              <div class="rs-field rs-full"><span class="rs-key">Enriched Context</span><pre class="rs-pre" id="rs-context">—</pre></div>
+            </div>
+          </div>
+
+          <!-- Stage 4: Decision -->
+          <div class="result-stage" id="res-stage-4">
+            <div class="rs-header">
+              <div class="rs-badge">Stage 4</div>
+              <div class="rs-title">⚡ Decision / Actions</div>
+              <div class="rs-toggle" data-target="rs-body-4">▼</div>
+            </div>
+            <div class="rs-body" id="rs-body-4">
+              <div class="rs-field"><span class="rs-key">Priority</span><span class="rs-val priority-chip" id="rs-priority">—</span></div>
+              <div class="rs-field"><span class="rs-key">Risk Level</span><span class="rs-val risk-chip" id="rs-risk">—</span></div>
+              <div class="rs-field rs-full"><span class="rs-key">Actions Generated</span><div class="action-list" id="rs-actions"></div></div>
+            </div>
+          </div>
+
+          <!-- Stage 5: Verification -->
+          <div class="result-stage" id="res-stage-5">
+            <div class="rs-header">
+              <div class="rs-badge">Stage 5</div>
+              <div class="rs-title">✅ Verification</div>
+              <div class="rs-toggle" data-target="rs-body-5">▼</div>
+            </div>
+            <div class="rs-body" id="rs-body-5">
+              <div class="rs-field rs-full">
+                <span class="rs-key">Confidence Score</span>
+                <div class="confidence-bar-wrap">
+                  <div class="confidence-bar" id="rs-conf-bar"></div>
+                  <span class="confidence-pct" id="rs-conf-pct">—</span>
+                </div>
+              </div>
+              <div class="rs-field rs-full"><span class="rs-key">Verified Actions</span><div class="action-list verified" id="rs-verified-actions"></div></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Raw JSON Toggle -->
+        <div class="raw-json-section">
+          <button class="raw-toggle-btn" id="rawToggleBtn">View Raw JSON</button>
+          <pre class="raw-json hidden" id="rawJson"></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- History -->
+    <section class="history-panel hidden" id="historyPanel">
+      <div class="panel-card">
+        <div class="panel-header">
+          <h2 class="panel-title">Recent Runs</h2>
+          <button class="clear-btn" id="clearHistoryBtn">Clear All</button>
+        </div>
+        <div class="history-list" id="historyList"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>PromptWars — Production-grade modular AI pipeline &nbsp;·&nbsp; 5-stage processing: Normalize → Intent → Context → Decision → Verify</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
